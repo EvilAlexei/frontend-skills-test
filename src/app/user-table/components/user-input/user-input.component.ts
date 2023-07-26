@@ -32,6 +32,10 @@ export class UserInputComponent {
       this.userForm.reset();
     }
   }
+
+  integrateUsers(): void {
+    this.userService.integrateUsers();
+  }
 }
 
 export function onlyLettersValidator(): ValidatorFn {

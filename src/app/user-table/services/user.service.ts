@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
+import names from '../../../assets/names.json';
 
 import { User } from '../models/user.model';
 
@@ -17,8 +18,7 @@ export class UserService {
   }
 
   addUser(name: string): void {
-    const charSum = findTheSum(name);
-    const newUser: User = new User(name, uuidv4(), charSum);
+    const newUser: User = this.createUser(name);
 
     this.users.push(newUser)
     this.sortUsers();
@@ -33,6 +33,23 @@ export class UserService {
     this.sortUsers();
 
     this.usersSubject.next([...this.users]);
+  }
+
+  integrateUsers(): void {
+    const newUsers = names.map((name: string) => this.createUser(name));
+
+    this.users = [
+      ...this.users,
+      ...newUsers
+    ];
+
+    this.sortUsers();
+
+    this.usersSubject.next([...this.users]);
+  }
+
+  private createUser(name: string): User {
+    return new User(name, uuidv4(), findTheSum(name));
   }
 
   private sortUsers(): void {
