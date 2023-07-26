@@ -1,0 +1,25 @@
+<table *ngIf="(users$ | async)?.length; else noUsers">
+  <tr>
+    <th>No</th>
+    <th>User Name</th>
+    <th>User Score</th>
+    <th>Actions</th>
+  </tr>
+
+  <tr *ngFor="let user of users$ | async; index as i; trackBy: trackByGn">
+    <td>{{ i + 1 }}</td>
+    <td>{{ user.name }}</td>
+    <td>{{ user.score }}</td>
+    <td>
+      <button type="button" (click)="removeUser(user)">Remove</button>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="4">Total: {{ this.sum }}</td>
+  </tr>
+</table>
+
+<ng-template #noUsers>
+  <p>There is no users at the moment</p>
+</ng-template>
